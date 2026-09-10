@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatización de Procesos Industriales y de Servicios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-app:#f3f5fb;
+  --bg-card:#ffffff;
+  --bg-soft:#eef1fb;
+  --line:#e1e6f5;
+  --coral:#ff6b5b;
+  --coral-soft:#ffe4e0;
+  --violet:#6c5ce7;
+  --violet-soft:#ece9fd;
+  --teal:#12b1a6;
+  --teal-soft:#dcf7f4;
+  --ink:#1c2135;
+  --ink-muted:#5b6180;
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --shadow-soft: 0 18px 40px -22px rgba(41, 47, 92, 0.25);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg-app);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,.plate-label{
+  font-family:'Poppins',sans-serif;
+}
+
+.mono{font-family:'Fira Code',monospace;}
+
+a{color:inherit;}
+
+/* ---------- Fondo decorativo ---------- */
+.blueprint-bg{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:
+    radial-gradient(680px 420px at 8% -6%, var(--coral-soft) 0%, transparent 60%),
+    radial-gradient(620px 460px at 108% 10%, var(--violet-soft) 0%, transparent 60%),
+    radial-gradient(680px 520px at 50% 120%, var(--teal-soft) 0%, transparent 55%),
+    var(--bg-app);
+}
+
+/* ---------- PORTADA ---------- */
+.portada{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:6vh 6vw;
+  position:relative;
+}
+
+.eyebrow-panel{
+  display:inline-flex;
+  align-items:center;
+  gap:.6em;
+  padding:.5em 1.1em;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--bg-card);
+  box-shadow:var(--shadow-soft);
+  color:var(--violet);
+  font-family:'Fira Code',monospace;
+  font-size:.78rem;
+  letter-spacing:.02em;
+  margin-bottom:2.2rem;
+  font-weight:600;
+}
+.eyebrow-panel .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg, var(--coral), var(--violet));
+}
+
+.portada h1{
+  font-size:clamp(2rem, 6vw, 4.2rem);
+  font-weight:700;
+  line-height:1.12;
+  max-width:16ch;
+  margin:0 0 1.4rem 0;
+  color:var(--ink);
+}
+
+.portada .subrayado{
+  background:linear-gradient(135deg, var(--coral), var(--violet));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.portada p.descripcion{
+  max-width:56ch;
+  color:var(--ink-muted);
+  font-size:1.05rem;
+  margin:0 0 3.2rem 0;
+}
+
+.nameplate{
+  border:1px solid var(--line);
+  background:var(--bg-card);
+  box-shadow:var(--shadow-soft);
+  padding:1.2rem 2.2rem;
+  border-radius:var(--radius-lg);
+  display:inline-flex;
+  flex-direction:column;
+  gap:.15rem;
+  position:relative;
+}
+.nameplate::before{
+  content:"";
+  position:absolute;
+  top:0;left:16px;right:16px;
+  height:3px;
+  border-radius:0 0 4px 4px;
+  background:linear-gradient(90deg, var(--coral), var(--violet), var(--teal));
+}
+.nameplate .label{
+  font-family:'Fira Code',monospace;
+  font-size:.68rem;
+  letter-spacing:.14em;
+  color:var(--ink-muted);
+}
+.nameplate .autor{
+  font-family:'Poppins',sans-serif;
+  font-size:1.15rem;
+  font-weight:700;
+  color:var(--coral);
+}
+.nameplate .divisor{
+  height:1px;
+  background:var(--line);
+  margin:.6rem 0;
+}
+.nameplate .docente{
+  font-family:'Poppins',sans-serif;
+  font-size:1rem;
+  font-weight:600;
+  color:var(--teal);
+}
+
+.scroll-cue{
+  position:absolute;
+  bottom:28px;
+  font-family:'Fira Code',monospace;
+  font-size:.72rem;
+  font-weight:600;
+  color:var(--ink-muted);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.4rem;
+  text-decoration:none;
+  letter-spacing:.08em;
+}
+.scroll-cue .barra{
+  width:1px;height:26px;
+  background:linear-gradient(var(--violet), transparent);
+  animation:baja 1.8s infinite;
+}
+@keyframes baja{
+  0%{transform:translateY(-6px);opacity:0;}
+  50%{opacity:1;}
+  100%{transform:translateY(6px);opacity:0;}
+}
+
+/* ---------- CATÁLOGO ---------- */
+#catalogo{
+  padding:5.5rem 6vw 6rem;
+  max-width:1180px;
+  margin:0 auto;
+}
+
+.catalogo-cabecera{
+  max-width:60ch;
+  margin-bottom:3rem;
+}
+.catalogo-cabecera .kicker{
+  display:inline-block;
+  font-family:'Inter',sans-serif;
+  font-weight:700;
+  color:var(--coral);
+  background:var(--coral-soft);
+  padding:.35em .9em;
+  border-radius:999px;
+  font-size:.75rem;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin:0 0 1rem 0;
+}
+.catalogo-cabecera h2{
+  font-size:clamp(1.6rem, 3.2vw, 2.3rem);
+  margin:0 0 .8rem 0;
+  font-weight:700;
+}
+.catalogo-cabecera p{
+  color:var(--ink-muted);
+  margin:0;
+}
+
+.grid-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+  gap:1.4rem;
+}
+
+.card{
+  display:block;
+  text-decoration:none;
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:1.7rem 1.6rem 1.9rem;
+  cursor:pointer;
+  position:relative;
+  box-shadow:var(--shadow-soft);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.card:hover, .card:focus-visible{
+  transform:translateY(-4px);
+  box-shadow:0 24px 46px -22px rgba(108,92,231,0.35);
+  outline:none;
+}
+.card:focus-visible{
+  box-shadow:0 0 0 3px rgba(108,92,231,0.35);
+}
+
+.card .icon-wrap{
+  width:56px;height:56px;
+  border-radius:var(--radius-md);
+  background:var(--bg-soft);
+  border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.2rem;
+}
+.card .icon-wrap svg{
+  width:30px;height:30px;
+  stroke:var(--coral);
+  fill:none;
+}
+
+.card h3{
+  font-size:1.12rem;
+  margin:0 0 .5rem 0;
+  color:var(--ink);
+  font-weight:600;
+}
+.card p{
+  font-size:.92rem;
+  color:var(--ink-muted);
+  margin:0 0 1rem 0;
+}
+.card .card-tag{
+  font-family:'Fira Code',monospace;
+  font-size:.7rem;
+  font-weight:600;
+  color:var(--violet);
+  letter-spacing:.04em;
+}
+
+footer{
+  text-align:center;
+  padding:2.4rem 6vw;
+  color:var(--ink-muted);
+  font-family:'Fira Code',monospace;
+  font-size:.75rem;
+  border-top:1px solid var(--line);
+}
+
+/* ---------- RESPONSIVE MÓVIL ---------- */
+@media (max-width:640px){
+  .portada{padding:8vh 6vw;}
+  .nameplate{padding:1rem 1.4rem;}
+  #catalogo{padding:3.6rem 6vw 4rem;}
+  .grid-cards{grid-template-columns:1fr;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .scroll-cue .barra{animation:none;}
+  html{scroll-behavior:auto;}
+  .card{transition:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="blueprint-bg"></div>
+
+<!-- ===================== PORTADA ===================== -->
+<section class="portada" id="inicio">
+
+  <div class="eyebrow-panel">
+    <span class="dot"></span>
+    Portafolio técnico
+  </div>
+
+  <h1>Automatización de <span class="subrayado">Procesos Industriales</span> y de Servicios</h1>
+
+  <p class="descripcion">
+    Un recorrido por los fundamentos, el vocabulario técnico y las herramientas —Arduino e IoT—
+    que hacen posible controlar, medir y conectar procesos reales.
+  </p>
+
+  <div class="nameplate">
+    <span class="label">TRABAJO REALIZADO POR</span>
+    <span class="autor">Angel Fernando Hernandez Rodriguez</span>
+    <div class="divisor"></div>
+    <span class="label">DOCENTE</span>
+    <span class="docente">Jordy Chirino Balcázar</span>
+  </div>
+
+  <a href="#catalogo" class="scroll-cue">
+    <span>CATÁLOGO</span>
+    <span class="barra"></span>
+  </a>
+</section>
+
+<!-- ===================== CATÁLOGO ===================== -->
+<section id="catalogo">
+  <div class="catalogo-cabecera">
+    <p class="kicker">// Temas</p>
+    <h2>Explora el contenido</h2>
+    <p>Selecciona la tarjeta para abrir la información completa del tema.</p>
+  </div>
+
+  <div class="grid-cards">
+
+    <a class="card" href="fundamentos.html">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1.08 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </div>
+      <h3>Fundamentos de Automatización</h3>
+      <p>Introducción, historia, ciclo de la automatización, ventajas/desventajas y diferencias entre automatización industrial y de servicios, con el entorno Arduino e IoT.</p>
+      <span class="card-tag">ABRIR CONTENIDO →</span>
+    </a>
+
+    <a class="card" href="lcd_arduino.html">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+          <path d="M7 10h.01M11 10h6M7 14h10"></path>
+        </svg>
+      </div>
+      <h3>Pantalla LCD con Arduino</h3>
+      <p>Conexión I2C del módulo LCD 16x2, materiales necesarios y explicación línea por línea del sketch que controla texto y backlight.</p>
+      <span class="card-tag">ABRIR CONTENIDO →</span>
+    </a>
+
+  </div>
+</section>
+
+<footer>
+  PORTAFOLIO · AUTOMATIZACIÓN INDUSTRIAL Y DE SERVICIOS · A. HERNÁNDEZ RODRÍGUEZ
+</footer>
+
+</body>
+</html>
